@@ -6,14 +6,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Spielfeld extends JFrame implements ActionListener{
-    JButton[] knoepfe = new JButton[9];
+
+    
+    JButton[][] knoepfe = new JButton[3][3];
+    String[] moeglicheEingaben= {"A1", "A2", "A3", "B1", "B2", "B3", "C1", "C2", "C3"};
+    String eingabe;
+    boolean eingegeben;
     
 
     public Spielfeld(){
-       this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(1000, 1000);
         this.setTitle("Tic Tac Toe");
-        System.out.println("test");
         this.setVisible(true);
         this.setResizable(true);
         this.getContentPane().setBackground(Color.WHITE);
@@ -21,37 +25,80 @@ public class Spielfeld extends JFrame implements ActionListener{
         
 
 
-        for(int i=0; i<knoepfe.length;i++){
-
-            if(i<3){
-                knoepfe[i]=new JButton("A"+(i+1));
-            }else if(i<6){
-                knoepfe[i]=new JButton("B"+(i+1-3));
-            }else if(i<9){
-                knoepfe[i]=new JButton("C"+(i+1-6));
+        for(int i=0; i<3;i++){
+            for(int j=0; j<3; j++){
+                int x=i;
+                int y=j;
+                x++;
+                y++;
+                knoepfe[i][j]=new JButton(""+x+y);
+                knoepfe[i][j].setVisible(true);
+                this.add(knoepfe[i][j]);
             }
+            
            
-            knoepfe[i].setVisible(true);
-            this.add(knoepfe[i]);
+            
              
         }
+        
+        
 
     }
 
-
-    public void userInput(){
-        for (int i=0; i<knoepfe.length; i++){
-            knoepfe[i].addActionListener(e ->System.out.println(knoepfe[i].getText()));
-        }
-
+    public void userIn (){   
+        for (int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                knoepfe[i][j].addActionListener(this);  
+            }         
+        }  
     }
 
 
+
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'actionPerformed'");
+      
+        for (int i=0; i<knoepfe.length; i++){
+            for(int j=0; j<3; j++){
+                if(e.getSource()==knoepfe[i][j]){
+                    eingabe=knoepfe[i][j].getText();
+                    knoepfe[i][j].setText("0");
+                    setEingabe(i);
+                    
+                }
+                
+            }   
+        }
     }
+
+
+     private void setEingabe(int index){
+        eingabe= moeglicheEingaben[index];
+        System.out.println("setEingabe");
+     }   
+
+
+
+
+    public String getEingabe(){
+        System.out.println("getEingeabe"+ eingabe);
+        return eingabe;
+
+    }
+
+    public JButton[][] getKnoepfe(){
+        return knoepfe;
+    }
+    
+    public void setTextKnoepfe(int x, int y, String text){
+        knoepfe[x][y]. setText(text);
+    }
+
+
+
 
 
 }
+
+
